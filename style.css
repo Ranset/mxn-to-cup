@@ -1,0 +1,55 @@
+.shadow-drop-center {
+	animation: shadow-drop-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+.content-block{
+	text-align: center;
+}
+
+#costo {
+	margin-bottom: -24px;
+}
+
+.bigInput {
+	height: 54px !important;
+	font-size: 40px !important;
+	text-align: center;
+}
+
+#titleConfig {
+	font-size: 20px;
+	margin-bottom: 25px;
+}
+
+#venta {
+	color: green;
+	padding-bottom: 1%;
+	font-size: 27px;
+}
+
+#venta>p {
+	margin-top: -35px;
+}
+
+.content-block-title {
+	margin-bottom: 48px;
+}
+
+.dataInfo {
+	margin-bottom: -12px;
+	color: grey;
+}
+
+/**
+ * ----------------------------------------
+ * animation shadow-drop-center
+ * ----------------------------------------
+ */
+@keyframes shadow-drop-center {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+  }
+}

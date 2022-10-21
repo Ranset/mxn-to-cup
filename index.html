@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+  <html lang="en" class="theme-green">
+  <head>
+    <meta charset="UTF-8">
+    <title>MXN a CUP</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel='stylesheet' href='./framework7.material.min.css'>
+    <link rel='stylesheet' href='./framework7.material.colors.min.css'>
+    <link rel="stylesheet" type="text/css" href="./style.css">
+
+  </head>
+  <body onload="actualizar()">
+
+  <!-- Contenido Menu izquierda -->
+  <div class="panel-overlay">
+    <div class="panel panel-left panel-cover">
+      <div class="content-block-title">Generador de precios en CUP</div>
+        <div class="content-block">
+              <div class="content-block-inner">
+                <a href="#home" class="link"><div class ="button ripple-blue">Home</div></a>
+                <a href="#page1" class="link"><div class ="button ripple-blue">Page 1</div></a>
+                <a href="#page2" class="link"><div class ="button ripple-blue">Page 2</div></a>
+                <a href="#Config" class="link"><div class ="button ripple-blue">Configuración</div></a>
+                <a href="#" class="link open-login-screen"><div class ="button ripple-blue">Login</div></a>
+          </div>
+        </div>
+    </div>
+  </div>
+
+  <!-- Pagina de login -->
+  <div class="login-screen">
+      <div class="view">
+          <div class="page">
+              <div class="page-content login-screen-content">
+                  <div class="login-screen-title">Login</div>
+                      <div class="list-block">
+                          <ul>
+                              <!-- Email -->
+                              <li>
+                                  <div class="item-content">
+                                      <div class="item-media"><i class="icon f7-icons">email</i></div>
+                                      <div class="item-inner">
+                                          <div class="item-title label">E-mail</div>
+                                          <div class="item-input">
+                                              <input type="email" placeholder="E-mail">
+                                          </div>
+                                      </div>
+                                  </div>
+                              </li>
+                              <!-- Password -->
+                              <li>
+                                  <div class="item-content">
+                                      <div class="item-media"><i class="icon f7-icons">lock</i></div>
+                                      <div class="item-inner">
+                                          <div class="item-title label">Password</div>
+                                          <div class="item-input">
+                                              <input type="password" name="password" placeholder="Password">
+                                          </div>
+                                      </div>
+                                  </div>
+                              </li>
+                          </ul>
+                      </div>
+                      <div class="content-block">
+                          <div class="row">
+                              <div class="col-50"><a href="#" class="button button-big button-fill color-red close-login-screen">Cancel</a></div>
+                              <div class="col-50"><a href="#" class="button button-big button-fill color-green close-login-screen">Submit</a></div>
+                          </div>
+                      </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <!-- Views -->
+  <div class="views">
+      <div class="view view-main">
+          <div class="pages">
+
+              <!-- Home -->
+              <div class="page navbar-fixed" data-page="home">
+                  <div class="navbar">
+                    <div class="navbar-inner">
+                      <div class="left"><a href="#" class="link icon-only open-panel"> <i class="icon icon-bars"></i></a></div>
+                      <div >Generador de precios en CUP</div>
+                    </div>
+                  </div>
+                  <div class="toolbar">
+                    <div class="toolbar-inner">
+                      <a href="#page1" class="link"></a>
+                      <a href="#Config" class="link">Config.</a>
+                    </div>
+                  </div>
+                  
+                  <div class="page-content">
+                    <div class="content-block inset shadow-drop-center">
+                    <div class="list-block">
+                      <ul>
+                        <li>
+                          <div class="item-content">
+                            <div class="item-inner">
+                              <div class="item-input">
+                                <input id="inputMXN" class="bigInput" type="number" placeholder="MXN">
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="content-block">
+                      <p id="costo">Equivale a $<span id="mxnToUsd">0</span> USD</p>
+                    </div>
+                    <div class="content-block-title">PRECIO PARA LA VENTA</div>
+                      <div id="venta" class="content-block">
+                          <p><strong id="usd">$0</strong> USD</p>
+                          <p><strong id="cup">$0</strong> CUP</p>
+                      </div>  
+                  </div>
+
+                  <div class="content-block">
+                    <a id="btnCalcular" href="#" class="button button-fill">Calcular </a>
+                  </div>
+
+                  <div class="content-block">
+                    <p class="dataInfo">El cambio de USD a MXN es de <span id="infoCambio">$19.00</span></p>
+                    <p class="dataInfo">Con una tasa de ganancia de <span id="infoTasa">2.0</span></p>
+                  </div>
+                  
+
+                  </div>
+              </div>
+
+              <!-- Page 1 -->
+              <div class="page cached no-toolbar navbar-fixed" data-page="page1">
+                  <div class="navbar">
+                      <div class="navbar-inner">
+                          <div class="left"><a href="#" class="link icon-only open-panel"> <i class="icon icon-bars"></i></a></div>
+                          <div>Page 1</div>
+                      </div>
+                  </div>
+                  <div class="page-content">
+                      <div class="content-block-title">Page 1 subtitle</div>
+                      <div class="content-block">
+                          <div class="content-block-inner">
+                              <p>Page 1 content</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+              <!-- Page 2 -->
+              <div class="page cached no-toolbar navbar-fixed" data-page="page2">
+                  <div class="navbar">
+                      <div class="navbar-inner">
+                          <div class="left"><a href="#" class="link icon-only open-panel"> <i class="icon icon-bars"></i></a></div>
+                          <div>Page 2</div>
+                      </div>
+                  </div>
+                  <div class="page-content">
+                      <div class="content-block-title">Page 2 subtitle</div>
+                      <div class="content-block">
+                          <div class="content-block-inner">
+                              <p>Page 2 content</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+              <!-- Page 3 CONFIGURACION -->
+              <div class="page cached no-toolbar navbar-fixed" data-page="Config">
+                  <div class="navbar">
+                      <div class="navbar-inner">
+                          <div class="left"><a href="#" class="link icon-only open-panel"> <i class="icon icon-bars"></i></a></div>
+                          <div>Configuración</div>
+                      </div>
+                  </div>
+                  <div class="page-content">
+                   <!-- <div id="titleConfig" class="content-block-title">CONFIGURACIÓN</div> -->
+                    <div class="list-block">
+                      <ul>
+                        <!--inputs -->
+                        <li>
+                          <div class="item-content">
+                            <div class="item-inner">
+                              <div class="item-title label">USD a MXN</div>
+                              <div class="item-input">
+                                <input id="inUsdMxn" type="number" placeholder="Cambio de USD a MXN en México">
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="item-content">
+                            <div class="item-inner">
+                              <div class="item-title label">USD a CUP</div>
+                              <div class="item-input">
+                                <input id="inUsdCup" type="number" placeholder="Cambio de USD a CUP en Cuba">
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="item-content">
+                            <div class="item-inner">
+                              <div class="item-title label">Ganancia</div>
+                              <div class="item-input">
+                                <input id="inTasa" type="number" placeholder="Tasa de ganancia por venta">
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+
+                      <div class="content-block">
+                        <a id="btnGuardar" href="#home" class="button button-fill">Guardar</a>
+                      </div>
+
+                    </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+    <script src='./framework7.min.js'></script>
+    <script src="./script.js"></script>
+    <script type="text/javascript" src="./calculo.js"></script>
+
+  </body>
+</html>
