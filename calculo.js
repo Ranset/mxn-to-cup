@@ -36,6 +36,8 @@ function guardar(){
     //Set data a localDB
     localStorage.setItem('config', JSON.stringify(configData));
 
+    sumar();
+
     actualizar();
 }
 
@@ -145,4 +147,5 @@ function calcularDisplay(){
     resultado = eval(inputMxn.value);
     inputMxn.value = resultado;
     sumar();
+    myApp.closeModal('.picker-info')
 }
