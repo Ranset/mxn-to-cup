@@ -101,7 +101,7 @@
                           <div class="item-content">
                             <div class="item-inner">
                               <div class="item-input">
-                                <input id="inputMXN" class="bigInput" type="number" placeholder="MXN">
+                                <input id="inputMXN" class="bigInput" type="text" placeholder="MXN" autocomplete="False" readonly>
                               </div>
                             </div>
                           </div>
@@ -118,9 +118,11 @@
                       </div>  
                   </div>
 
+                  <!-- BOTTON CALCULAR !!ANTIGUO!!
                   <div class="content-block">
                     <a id="btnCalcular" href="#" class="button button-fill">Calcular </a>
                   </div>
+                  -->
 
                   <div class="content-block">
                     <p class="dataInfo">El cambio de USD a MXN es de <span id="infoCambio">$19.00</span></p>
@@ -221,6 +223,50 @@
               </div>
           </div>
       </div>
+  </div>
+
+  <!-- Ventana modal TECLADO CALCULADORA -->
+  <div class="picker-modal picker-info">
+    <div class="toolbar">
+      <div class="toolbar-inner">
+        <div class="left"></div>
+        <div class="right"><a href="#" class="close-picker">Cerrar</a></div>
+      </div>
+    </div>
+    <div class="picker-modal-inner">
+      <div class="content-block">
+        <p class="buttons-row">
+          <a href="#" class="button"onclick="agregarDisplay('C')">C</a>
+          <a href="#" class="button">%</a>
+          <a href="#" class="button" onclick="eliminarDisplay()"><-</a>
+          <a href="#" class="button" onclick="agregarDisplay('*')">x</a>
+        </p>
+        <p class="buttons-row">
+          <a href="#" class="button calc-nro" onclick="agregarDisplay('7')">7</a>
+          <a href="#" class="button calc-nro" onclick="agregarDisplay('8')">8</a>
+          <a href="#" class="button calc-nro" onclick="agregarDisplay('9')">9</a>
+          <a href="#" class="button" onclick="agregarDisplay('/')">/</a>
+        </p>
+        <p class="buttons-row">
+          <a href="#" class="button calc-nro" onclick="agregarDisplay('4')">4</a>
+          <a href="#" class="button calc-nro" onclick="agregarDisplay('5')">5</a>
+          <a href="#" class="button calc-nro" onclick="agregarDisplay('6')">6</a>
+          <a href="#" class="button" onclick="agregarDisplay('-')">-</a>
+        </p>
+        <p class="buttons-row">
+          <a href="#" class="button calc-nro" onclick="agregarDisplay('1')">1</a>
+          <a href="#" class="button calc-nro" onclick="agregarDisplay('2')">2</a>
+          <a href="#" class="button calc-nro" onclick="agregarDisplay('3')">3</a>
+          <a href="#" class="button" onclick="agregarDisplay('+')">+</a>
+        </p>
+        <p class="buttons-row">
+          <a href="#" class="button calc-nro" onclick="agregarDisplay('.')"><strong>.</strong></a>
+          <a href="#" class="button calc-nro" onclick="agregarDisplay('0')">0</a>
+          <a href="#" class="button calc-nro" onclick="agregarDisplay('00')">00</a>
+          <a href="#" class="button button-fill calc-igual" onclick="calcularDisplay()">=</a>
+        </p> 
+      </div>
+    </div>
   </div>
 
     <script src='./framework7.min.js'></script>

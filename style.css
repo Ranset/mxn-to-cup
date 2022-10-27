@@ -40,6 +40,23 @@
 	color: grey;
 }
 
+.close-picker {
+	color: white !important;
+	margin-right: 20px !important;
+}
+
+.calc-nro{
+	color: black !important;
+}
+
+.picker-modal {
+  height: 345px;
+}
+
+a.button-fill.calc-igual{
+
+}
+
 /**
  * ----------------------------------------
  * animation shadow-drop-center

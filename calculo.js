@@ -2,11 +2,12 @@ var mxn;
 var dolar;
 var tasa;
 var usdToCup;
+const inputMxn = document.getElementById('inputMXN');
 
 
 function sumar() {
     //Input del costo MXN en el front
-	mxn = document.getElementById('inputMXN').value;
+	mxn = inputMxn.value;
 
     //Cálculos
     var precioCUP = Number(mxn) / Number(dolar) * Number(tasa) * Number(usdToCup);
@@ -39,7 +40,7 @@ function guardar(){
 }
 
 //Eventos click de la app
-document.getElementById('btnCalcular').addEventListener('click', sumar);
+//document.getElementById('btnCalcular').addEventListener('click', sumar);
 document.getElementById('btnGuardar').addEventListener('click', guardar);
 //document.getElementById('btnCUP').addEventListener('click', showPoppup);
 
@@ -70,7 +71,7 @@ function showPoppup(){
     document.getElementById('mxnToUsd').innerHTML = costoUSD.toFixed(2);
 
 
-    document.getElementById('inputMXN').value = inputMxn.toFixed(2);
+    inputMxn.value = inputMxn.toFixed(2);
 
 }
 
@@ -107,15 +108,41 @@ function actualizar(){
     document.getElementById('inUsdCup').value = obj.usdToCup;
 
     console.log(obj);
-
-
     }
 
 
 }
 
-function limpiar() {
-    document.getElementById('inputMXN').value = "";
+//Click en el inputMXN de precio
+function showCalc() {
+    myApp.pickerModal('.picker-info')
 }
 
-document.getElementById('inputMXN').addEventListener('click', limpiar);
+inputMxn.addEventListener('click', showCalc);
+
+// Agregar a display
+function agregarDisplay (a){
+
+    if (a == 'C') {
+
+        inputMxn.value = "";
+
+    } else {
+
+    inputMxn.value += a;
+
+    }
+}
+
+// Borrar ultimo elemento del display
+function eliminarDisplay(){
+    inputMxn.value = inputMxn.value.slice(0, -1);
+}
+
+
+// Sumar Display
+function calcularDisplay(){
+    resultado = eval(inputMxn.value);
+    inputMxn.value = resultado;
+    sumar();
+}
