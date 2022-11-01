@@ -58,10 +58,10 @@
 }
 
 p.buttons-row> a{
-	font-size: 25px
+	font-size: 25px;
 }
 
-p.buttons-row:nth-child(1) > a:nth-child(3) > img:nth-child(1){
+p.buttons-row> a> img{
 	width: 25px;
 }
 

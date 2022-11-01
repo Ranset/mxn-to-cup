@@ -144,8 +144,16 @@ function eliminarDisplay(){
 
 // Sumar Display
 function calcularDisplay(){
+
     resultado = eval(inputMxn.value);
-    inputMxn.value = resultado;
-    sumar();
-    myApp.closeModal('.picker-info')
+    if (isNaN(resultado)){
+        console.log(resultado);
+    } else {
+        inputMxn.value = resultado;
+        sumar();
+        myApp.closeModal('.picker-info');
+        console.log(resultado);
+    }
+
+
 }
