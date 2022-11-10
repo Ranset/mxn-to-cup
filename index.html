@@ -28,7 +28,7 @@
           </div>
         </div>
         <div class="content-block">
-          RANOLI - v2.0b2
+          RANOLI - v2.0b3
         </div>
     </div>
   </div>
@@ -119,15 +119,9 @@
                     <div class="content-block-title">PRECIO PARA LA VENTA</div>
                       <div id="venta" class="content-block">
                           <p><strong id="usd">$0</strong> USD</p>
-                          <p><strong id="cup">$0</strong> CUP</p>
+                          <p data-popover=".popover-about" class="open-popover"><strong id="cup">$0</strong> CUP</p>
                       </div>  
                   </div>
-
-                  <!-- BOTTON CALCULAR !!ANTIGUO!!
-                  <div class="content-block">
-                    <a id="btnCalcular" href="#" class="button button-fill">Calcular </a>
-                  </div>
-                  -->
 
                   <div class="content-block">
                     <p class="dataInfo">El cambio de USD a MXN es de <span id="infoCambio">$19.00</span></p>
@@ -228,6 +222,29 @@
               </div>
           </div>
       </div>
+  </div>
+
+  <!-- About popover -->
+  <div class="popover popover-about">
+    <div class="popover-angle"></div>
+    <div class="popover-inner">
+      <div class="content-block">
+                            <div class="list-block">
+                      <ul>
+                        <li>
+                          <div class="item-content">
+                            <div class="item-inner">
+                              <div class="item-input">
+                                <input id="inputCUP" class="bigInput" type="number" placeholder="CUP" autocomplete="False">
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+        <a id="btnCalcular" href="#" class="button button-fill">Calcular </a>
+      </div>
+    </div>
   </div>
 
   <!-- Ventana modal TECLADO CALCULADORA -->

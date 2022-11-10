@@ -1,27 +1,30 @@
-var mxn;
-var dolar;
-var tasa;
-var usdToCup;
+let mxn;
+let dolar;
+let tasa;
+let usdToCup;
+
+let memory = "";
+let resultado;
 const inputMxn = document.getElementById('inputMXN');
 
 
 function sumar() {
     //Input del costo MXN en el front
-	mxn = inputMxn.value;
+	mxn = resultado;
 
     //Cálculos
-    var precioCUP = Number(mxn) / Number(dolar) * Number(tasa) * Number(usdToCup);
-    var precioUSD = Number(mxn) / Number(dolar) * Number(tasa);
-    var costoUSD = Number(mxn) / Number(dolar);
+    let precioCUP = Number(mxn) / Number(dolar) * Number(tasa) * Number(usdToCup);
+    let precioUSD = Number(mxn) / Number(dolar) * Number(tasa);
+    let costoUSD = Number(mxn) / Number(dolar);
 
     // Muestra Precio en CUP
-    document.getElementById('cup').innerHTML = "$ " + precioCUP.toFixed(0);
+    document.getElementById('cup').innerHTML = "$ " + formatear(precioCUP, 0);
 
     // Muestra precio en USD 
-    document.getElementById('usd').innerHTML = "$ " + precioUSD.toFixed(2);
+    document.getElementById('usd').innerHTML = "$ " + formatear(precioUSD, 2);
 
     // Muestra equivalente en USD
-    document.getElementById('mxnToUsd').innerHTML = costoUSD.toFixed(2);
+    document.getElementById('mxnToUsd').innerHTML = formatear(costoUSD, 2);
 }
 
 function guardar(){
@@ -31,7 +34,7 @@ function guardar(){
     tasa = document.getElementById('inTasa').value;
     usdToCup = document.getElementById('inUsdCup').value;
 
-    var configData = {"dolar": dolar, "usdToCup": usdToCup, "tasa": tasa};
+    let configData = {"dolar": dolar, "usdToCup": usdToCup, "tasa": tasa};
 
     //Set data a localDB
     localStorage.setItem('config', JSON.stringify(configData));
@@ -45,6 +48,13 @@ function guardar(){
 //document.getElementById('btnCalcular').addEventListener('click', sumar);
 document.getElementById('btnGuardar').addEventListener('click', guardar);
 //document.getElementById('btnCUP').addEventListener('click', showPoppup);
+
+
+// Función para separar los miles en los números
+function formatear (num, decimal){
+    formatedNum = num.toFixed(decimal).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    return formatedNum;
+}
 
 
 //poput calculo reverso
@@ -96,7 +106,7 @@ function actualizar(){
     console.log("Datos obtenidos de DB local")
 
     //get data
-    var obj = JSON.parse(localStorage.getItem('config'));
+    let obj = JSON.parse(localStorage.getItem('config'));
 
     dolar = Number(obj.dolar);
     tasa = Number(obj.tasa);
@@ -128,31 +138,35 @@ function agregarDisplay (a){
     if (a == 'C') {
 
         inputMxn.value = "";
+        memory = "";
 
     } else {
 
-    inputMxn.value += a;
+    memory += a;
+    inputMxn.value = memory;
 
     }
 }
 
 // Borrar ultimo elemento del display
 function eliminarDisplay(){
-    inputMxn.value = inputMxn.value.slice(0, -1);
+    memory = memory.slice(0, -1);
+    inputMxn.value = memory;
 }
 
 
 // Sumar Display
 function calcularDisplay(){
 
-    resultado = eval(inputMxn.value);
+    resultado = eval(memory);
     if (isNaN(resultado)){
         console.log(resultado);
     } else {
-        inputMxn.value = resultado;
+        //memory = resultado.toString();
+        memory = "";
+        inputMxn.value = formatear(resultado, 2);
         sumar();
         myApp.closeModal('.picker-info');
-        console.log(resultado);
     }
 
 
