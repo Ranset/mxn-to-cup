@@ -9,6 +9,12 @@
     <link rel='stylesheet' href='./framework7.material.colors.min.css'>
     <link rel="stylesheet" type="text/css" href="./style.css">
 
+    <script>
+  if (typeof navigator.serviceWorker !== 'undefined') {
+    navigator.serviceWorker.register('pwabuilder-sw.js')
+  }
+</script>
+
   </head>
   <body onload="actualizar()">
 
