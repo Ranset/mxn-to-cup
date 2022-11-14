@@ -1,3 +1,10 @@
+#appTitle{
+	font-size: 25px;
+	overflow: visible;
+	text-align: center;
+	line-height: 1
+}
+
 .shadow-drop-center {
 	animation: shadow-drop-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 }

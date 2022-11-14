@@ -27,6 +27,36 @@ function sumar() {
     document.getElementById('mxnToUsd').innerHTML = formatear(costoUSD, 2);
 }
 
+//poput calculo reverso
+function sumarCUP(){
+
+    let text;
+    const inputCUP = document.getElementById('inputCUP');
+    let newPrecioCUP = inputCUP.value;
+    if (newPrecioCUP == null || newPrecioCUP == "") {
+        text = "User cancelled the prompt.";
+    }
+
+      //calculos
+      let precioUSD = newPrecioCUP/usdToCup;
+      let costoUSD = precioUSD / tasa;
+      let inputMxn = costoUSD * dolar;
+
+    // Muestra Precio en CUP
+    document.getElementById('cup').innerHTML = "$ " + formatear(Number(newPrecioCUP), 0);
+
+    // Muestra precio en USD 
+    document.getElementById('usd').innerHTML = "$ " + formatear(precioUSD, 2);
+
+    // Muestra equivalente en USD
+    document.getElementById('mxnToUsd').innerHTML = formatear(costoUSD, 2);
+
+    inputMXN.value = formatear(inputMxn, 2);
+
+    myApp.closeModal('.popover');
+
+}
+
 function guardar(){
 
     // Datos de los inputs en la Configuración
@@ -57,35 +87,7 @@ function formatear (num, decimal){
 }
 
 
-//poput calculo reverso
-function showPoppup(){
 
-    let text;
-    let newPrecioCUP = prompt("Coloque el precio deseado en CUP:", "0.00");
-    if (newPrecioCUP == null || newPrecioCUP == "") {
-        text = "User cancelled the prompt.";
-    } else {
-        text = "Hello " + newPrecioCUP + "! How are you today?";
-      }
-
-      //calculos
-      let precioUSD = newPrecioCUP/usdToCup
-      let costoUSD = precioUSD / tasa
-      let inputMxn = costoUSD * dolar
-
-    // Muestra Precio en CUP
-    document.getElementById('cup').innerHTML = "$ " + newPrecioCUP;
-
-    // Muestra precio en USD 
-    document.getElementById('usd').innerHTML = "$ " + precioUSD.toFixed(2);
-
-    // Muestra equivalente en USD
-    document.getElementById('mxnToUsd').innerHTML = costoUSD.toFixed(2);
-
-
-    inputMxn.value = inputMxn.toFixed(2);
-
-}
 
 function MostrarConfig(){
     document.getElementById('infoCambio').innerHTML = "$" + dolar.toFixed(2);
