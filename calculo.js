@@ -80,9 +80,9 @@ function guardar(){
     //Set data a localDB
     localStorage.setItem('config', JSON.stringify(configData));
 
-    sumar();
-
     actualizar();
+
+    sumar();
 }
 
 //Eventos click de la app
@@ -106,6 +106,33 @@ function MostrarConfig(){
 } 
 
 function actualizar(){
+    // Datos apiToque local por defecto
+    if (!localStorage.getItem('apiToque')){
+        let apiData = {"usd": 165, "date": "2022-12-26"};
+
+        //Set data a localDB
+        localStorage.setItem('apiToque', JSON.stringify(apiData));
+    }
+
+    // Datos apiSJ local por defecto
+    if (!localStorage.getItem('apiSJ')){
+        let apiData = {"mxn":19.8,"date":"10/01/2023 12:15"};
+
+        //Set data a localDB
+        localStorage.setItem('apiSJ', JSON.stringify(apiData));
+    }
+    
+
+    // Dats defecto memoria configuracu'on
+    if (!localStorage.getItem('customCup')) {
+        localStorage.setItem('customCup', 120);
+    }
+
+    if (!localStorage.getItem('customUsd')) {
+        localStorage.setItem('customUsd', 19.80);
+    }
+
+    //Datos de configuraci'on    
     if (!localStorage.getItem('config')){
 
     dolar = 19.40;
@@ -129,6 +156,10 @@ function actualizar(){
     statusCheckToque = obj.eltoque
     statusCheckSJ = obj.sanjorge
 
+    document.getElementById('inUsdCup').disabled = obj.eltoque;
+    document.getElementById('inUsdMxn').disabled = obj.sanjorge;
+    
+
     MostrarConfig();
 
     // Actualizando los campos en la ficha de Configuración (back)
@@ -137,6 +168,8 @@ function actualizar(){
     document.getElementById('inUsdCup').value = obj.usdToCup;
     toqueChecker.checked = statusCheckToque;
     sjChecker.checked = statusCheckSJ;
+
+    actualizar_API_SJ()
 
     actualizar_API_Toque()
 
@@ -194,24 +227,18 @@ function calcularDisplay(){
 }
 
 
-// Datos API local por defecto
-if (!localStorage.getItem('api')){
-    let apiData = {"usd": 165, "date": "2022-12-26"};
 
-    //Set data a localDB
-    localStorage.setItem('api', JSON.stringify(apiData));
-}
 
 function actualizar_API_Toque(){
     let hoy = new Date().toISOString().slice(0, 10);
 
     //get data
-    let obj = JSON.parse(localStorage.getItem('api'));
+    let obj = JSON.parse(localStorage.getItem('apiToque'));
 
     if (hoy != obj.date && statusCheckToque) {
 
         const url = 'https://tasas.eltoque.com/v1/trmi?date_from='+hoy+'%2000%3A00%3A01&date_to='+hoy+'%2023%3A59%3A01';
-        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3MTY0MjcyOCwianRpIjoiNmQxMzhmY2QtMDdlYS00OTI0LTkxNGMtNjIyOGI2ZGY2MGM0IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjYzYTMzZTY4ZTNhYzlkNWM2NGI1OTFmZCIsIm5iZiI6MTY3MTY0MjcyOCwiZXhwIjoxNzAzMTc4NzI4fQ.qMYR74hiBLNkS579r_VeuDrdP9fUKGPDiBxOICPNxso"; // API Token
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3MTY0MjcyOCwianRpIjoiNmQxMzhmY2QtMDdlYS00OTI0LTkxNGMtNjIyOGI2ZGY2MGM0IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjYzYTMzZTY4ZTNhYzlkNWM2NGI1OTFmZCIsIm5iZiI6MTY3MTY0MjcyOCwiZXhwIjoxNzAzMTc4NzI4fQ.qMYR74hiBLNkS579r_VeuDrdP9fUKGPDiBxOICPNxso"; // apiToque Token
         const method = "GET"; // Request method, change for what's needed
 
         fetch(url, {method, 
@@ -224,7 +251,11 @@ function actualizar_API_Toque(){
             apiData = {"usd": data.tasas.USD, "date": data.date};
 
             //Set data a localDB
-            localStorage.setItem('api', JSON.stringify(apiData));
+            localStorage.setItem('apiToque', JSON.stringify(apiData));
+            usdToCup = Number(data.tasas.USD);
+
+            document.getElementById('inUsdCup').value = data.tasas.USD;
+
 
             myApp.addNotification({
                 message: 'Actualizada tasa de CUP',
@@ -238,6 +269,72 @@ function actualizar_API_Toque(){
 }
 
 
-console.log(sjChecker.checked);
-console.log(toqueChecker.checked);
-toqueChecker.checked = false;
+function actualizar_API_SJ(){
+    let hoy = new Date().toLocaleDateString("en-GB");
+
+    //get data
+    let obj = JSON.parse(localStorage.getItem('apiSJ'));
+
+    if (hoy != obj.date.slice(0, 10) && statusCheckSJ) {
+
+        const url = 'https://sj-api.deta.dev/';
+
+        console.log("inicio obtenci'on datos SJ")
+
+        fetch(url).then(response => response.json()).then(data => {
+            apiData = {"mxn": data.mxn, "date": data.date};
+
+            //Set data a localDB
+            localStorage.setItem('apiSJ', JSON.stringify(apiData));
+            dolar = Number(data.mxn);
+
+            //Actalizar tasa del USD/MXN en el front
+            document.getElementById('infoCambio').innerHTML = "$" + dolar.toFixed(2);
+
+            document.getElementById('inUsdMxn').value = data.mxn;
+
+
+            myApp.addNotification({
+                message: 'Actualizada tasa de MXN/USD',
+                closeOnClick: true,
+                hold: 2500
+            });
+        })
+        .catch(err=>console.log(err));
+
+        }
+}
+
+// Evento click del checbox de El Toque en Configuraci'on
+function changeCheckToque() {
+    let obj = JSON.parse(localStorage.getItem('apiToque'));
+
+    if (document.getElementById('inUsdCup').disabled) {
+        document.getElementById('inUsdCup').value = localStorage.getItem('customCup');
+        document.getElementById('inUsdCup').disabled = false;
+    } else {
+        localStorage.setItem('customCup', document.getElementById('inUsdCup').value);
+        document.getElementById('inUsdCup').value = obj.usd;
+        document.getElementById('inUsdCup').disabled = true;
+    }
+}
+
+// Evento click del checbox de San Jorge en Configuraci'on
+function changeCheckSJ() {
+    let obj = JSON.parse(localStorage.getItem('apiSJ'));
+
+    if (document.getElementById('inUsdMxn').disabled) {
+        document.getElementById('inUsdMxn').value = localStorage.getItem('customUsd');
+        document.getElementById('inUsdMxn').disabled = false;
+    } else {
+        localStorage.setItem('customUsd', document.getElementById('inUsdMxn').value);
+        document.getElementById('inUsdMxn').value = obj.mxn;
+        document.getElementById('inUsdMxn').disabled = true;
+    }
+}
+
+let hoy = new Date().toLocaleDateString("en-GB");
+let delAPI = "11/01/2023 14:45"
+
+console.log(hoy);
+console.log("Del API: " + delAPI.slice(0, 10))
