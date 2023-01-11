@@ -5,7 +5,15 @@ let usdToCup;
 
 let memory = "";
 let resultado;
+
+let apiData = {};
+
 const inputMxn = document.getElementById('inputMXN');
+const toqueChecker = document.getElementById('checkToque');
+const sjChecker = document.getElementById('checkSJ');
+
+let statusCheckToque;
+let statusCheckSJ;
 
 
 function sumar() {
@@ -64,7 +72,10 @@ function guardar(){
     tasa = document.getElementById('inTasa').value;
     usdToCup = document.getElementById('inUsdCup').value;
 
-    let configData = {"dolar": dolar, "usdToCup": usdToCup, "tasa": tasa};
+    statusCheckToque = toqueChecker.checked;
+    statusCheckSJ = sjChecker.checked;
+
+    let configData = {"dolar": dolar, "usdToCup": usdToCup, "tasa": tasa, "eltoque": statusCheckToque, "sanjorge": statusCheckSJ};
 
     //Set data a localDB
     localStorage.setItem('config', JSON.stringify(configData));
@@ -100,6 +111,8 @@ function actualizar(){
     dolar = 19.40;
     tasa = 2.0;
     usdToCup = 120;
+    statusCheckToque = false;
+    statusCheckSJ = false;
     MostrarConfig();
     console.log("Se cargaron los datos por defecto");
 
@@ -113,6 +126,8 @@ function actualizar(){
     dolar = Number(obj.dolar);
     tasa = Number(obj.tasa);
     usdToCup = Number(obj.usdToCup);
+    statusCheckToque = obj.eltoque
+    statusCheckSJ = obj.sanjorge
 
     MostrarConfig();
 
@@ -120,6 +135,10 @@ function actualizar(){
     document.getElementById('inUsdMxn').value = obj.dolar;
     document.getElementById('inTasa').value = obj.tasa;
     document.getElementById('inUsdCup').value = obj.usdToCup;
+    toqueChecker.checked = statusCheckToque;
+    sjChecker.checked = statusCheckSJ;
+
+    actualizar_API_Toque()
 
     console.log(obj);
     }
@@ -173,3 +192,52 @@ function calcularDisplay(){
 
 
 }
+
+
+// Datos API local por defecto
+if (!localStorage.getItem('api')){
+    let apiData = {"usd": 165, "date": "2022-12-26"};
+
+    //Set data a localDB
+    localStorage.setItem('api', JSON.stringify(apiData));
+}
+
+function actualizar_API_Toque(){
+    let hoy = new Date().toISOString().slice(0, 10);
+
+    //get data
+    let obj = JSON.parse(localStorage.getItem('api'));
+
+    if (hoy != obj.date && statusCheckToque) {
+
+        const url = 'https://tasas.eltoque.com/v1/trmi?date_from='+hoy+'%2000%3A00%3A01&date_to='+hoy+'%2023%3A59%3A01';
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3MTY0MjcyOCwianRpIjoiNmQxMzhmY2QtMDdlYS00OTI0LTkxNGMtNjIyOGI2ZGY2MGM0IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjYzYTMzZTY4ZTNhYzlkNWM2NGI1OTFmZCIsIm5iZiI6MTY3MTY0MjcyOCwiZXhwIjoxNzAzMTc4NzI4fQ.qMYR74hiBLNkS579r_VeuDrdP9fUKGPDiBxOICPNxso"; // API Token
+        const method = "GET"; // Request method, change for what's needed
+
+        fetch(url, {method, 
+                   headers: {
+                "Authorization": `Bearer ${token}` // This is the important part, the auth header
+            }
+                   })
+        .then(response => response.json())
+        .then(data => {
+            apiData = {"usd": data.tasas.USD, "date": data.date};
+
+            //Set data a localDB
+            localStorage.setItem('api', JSON.stringify(apiData));
+
+            myApp.addNotification({
+                message: 'Actualizada tasa de CUP',
+                closeOnClick: true,
+                hold: 2500
+            });
+        })
+        .catch(err=>console.log(err));
+
+        }
+}
+
+
+console.log(sjChecker.checked);
+console.log(toqueChecker.checked);
+toqueChecker.checked = false;

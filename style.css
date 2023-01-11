@@ -72,6 +72,10 @@ p.buttons-row> a> img{
 	width: 25px;
 }
 
+.close-notification {
+	display: none
+}
+
 /**
  * ----------------------------------------
  * animation shadow-drop-center
