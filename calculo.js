@@ -230,12 +230,16 @@ function calcularDisplay(){
 
 
 function actualizar_API_Toque(){
-    let hoy = new Date().toISOString().slice(0, 10);
+    let hoy = new Date().toLocaleString('en-CA', {
+        timeZone: 'America/Havana',
+      }).slice(0, 10);
 
     //get data
     let obj = JSON.parse(localStorage.getItem('apiToque'));
 
     if (hoy != obj.date && statusCheckToque) {
+
+        console.log("Fecha para el toque: " + hoy)
 
         const url = 'https://tasas.eltoque.com/v1/trmi?date_from='+hoy+'%2000%3A00%3A01&date_to='+hoy+'%2023%3A59%3A01';
         const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3MTY0MjcyOCwianRpIjoiNmQxMzhmY2QtMDdlYS00OTI0LTkxNGMtNjIyOGI2ZGY2MGM0IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjYzYTMzZTY4ZTNhYzlkNWM2NGI1OTFmZCIsIm5iZiI6MTY3MTY0MjcyOCwiZXhwIjoxNzAzMTc4NzI4fQ.qMYR74hiBLNkS579r_VeuDrdP9fUKGPDiBxOICPNxso"; // apiToque Token
@@ -277,11 +281,19 @@ function actualizar_API_SJ(){
 
     if (hoy != obj.date.slice(0, 10) && statusCheckSJ) {
 
+        console.log("Fecha para SJ: " + hoy)
+
         const url = 'https://sj-api.deta.dev/';
+        const token = "";
+        const method = "GET"; // Request method, change for what's needed
 
-        console.log("inicio obtenci'on datos SJ")
-
-        fetch(url).then(response => response.json()).then(data => {
+        fetch(url, {method, 
+                   headers: {
+                "Authorization": `Bearer ${token}` // This is the important part, the auth header
+            }
+                   })
+        .then(response => response.json())
+        .then(data => {
             apiData = {"mxn": data.mxn, "date": data.date};
 
             //Set data a localDB
@@ -332,9 +344,3 @@ function changeCheckSJ() {
         document.getElementById('inUsdMxn').disabled = true;
     }
 }
-
-let hoy = new Date().toLocaleDateString("en-GB");
-let delAPI = "11/01/2023 14:45"
-
-console.log(hoy);
-console.log("Del API: " + delAPI.slice(0, 10))
