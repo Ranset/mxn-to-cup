@@ -337,6 +337,12 @@ function changeCheckToque() {
 function changeCheckSJ() {
     let obj = JSON.parse(localStorage.getItem('apiSJ'));
 
+    myApp.addNotification({
+        message: 'Dio click',
+        closeOnClick: true,
+        hold: 2500
+    });
+
     if (document.getElementById('inUsdMxn').disabled) {
         document.getElementById('inUsdMxn').value = localStorage.getItem('customUsd');
         document.getElementById('inUsdMxn').disabled = false;
