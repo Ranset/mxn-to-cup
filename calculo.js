@@ -80,6 +80,10 @@ function guardar(){
     //Set data a localDB
     localStorage.setItem('config', JSON.stringify(configData));
 
+    changeCheckToque()
+
+    changeCheckSJ()
+
     actualizar();
 
     sumar();
@@ -268,7 +272,6 @@ function actualizar_API_Toque(){
             });
         })
         .catch(err=>console.log(err));
-
         }
 }
 
@@ -313,7 +316,6 @@ function actualizar_API_SJ(){
             });
         })
         .catch(err=>console.log(err));
-
         }
 }
 
