@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+  <html lang="en" class="theme-green">
+  <head>
+    <meta charset="UTF-8">
+    <title>title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel='stylesheet' href='./framework7.material.min.css'>
+    <link rel='stylesheet' href='./framework7.material.colors.min.css'>
+    <link rel="stylesheet" type="text/css" href="./style.css">
+
+  </head>
+  <body>
+
+    <script type="text/javascript">
+      
+      function actualizar_API_Toque(){
+    let hoy = new Date().toLocaleString('en-CA', {
+        timeZone: 'America/Havana',
+      }).slice(0, 10);
+
+    //get data
+    let obj = JSON.parse(localStorage.getItem('apiToque'));
+
+    if (hoy != obj.date && statusCheckToque) {
+
+        console.log("Fecha para el toque: " + hoy)
+
+        const url = 'https://tasas.eltoque.com/v1/trmi?date_from='+hoy+'%2000%3A00%3A01&date_to='+hoy+'%2023%3A59%3A01';
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3MTY0MjcyOCwianRpIjoiNmQxMzhmY2QtMDdlYS00OTI0LTkxNGMtNjIyOGI2ZGY2MGM0IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjYzYTMzZTY4ZTNhYzlkNWM2NGI1OTFmZCIsIm5iZiI6MTY3MTY0MjcyOCwiZXhwIjoxNzAzMTc4NzI4fQ.qMYR74hiBLNkS579r_VeuDrdP9fUKGPDiBxOICPNxso"; // apiToque Token
+        const method = "GET"; // Request method, change for what's needed
+
+        fetch(url, {method, 
+                   headers: {
+                "Authorization": `Bearer ${token}` // This is the important part, the auth header
+            }
+                   })
+        .then(response => response.json())
+        .then(data => {
+            apiData = {"usd": data.tasas.USD, "date": data.date};
+
+            //Set data a localDB
+            localStorage.setItem('apiToque', JSON.stringify(apiData));
+            usdToCup = Number(data.tasas.USD);
+
+            document.getElementById('inUsdCup').value = data.tasas.USD;
+
+
+            myApp.addNotification({
+                message: 'Actualizada tasa de CUP',
+                closeOnClick: true,
+                hold: 2500
+            });
+        })
+        .catch(err=>console.log(err));
+        }
+}
+      
+    </script>
+
+
+  </body>

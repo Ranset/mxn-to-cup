@@ -72,9 +72,6 @@ function guardar(){
     tasa = document.getElementById('inTasa').value;
     usdToCup = document.getElementById('inUsdCup').value;
 
-    statusCheckToque = toqueChecker.checked;
-    statusCheckSJ = sjChecker.checked;
-
     let configData = {"dolar": dolar, "usdToCup": usdToCup, "tasa": tasa, "eltoque": statusCheckToque, "sanjorge": statusCheckSJ};
 
     //Set data a localDB
@@ -90,18 +87,13 @@ function guardar(){
 }
 
 //Eventos click de la app
-//document.getElementById('btnCalcular').addEventListener('click', sumar);
 document.getElementById('btnGuardar').addEventListener('click', guardar);
-//document.getElementById('btnCUP').addEventListener('click', showPoppup);
-
 
 // Función para separar los miles en los números
 function formatear (num, decimal){
     formatedNum = num.toFixed(decimal).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     return formatedNum;
 }
-
-
 
 
 function MostrarConfig(){
@@ -112,7 +104,7 @@ function MostrarConfig(){
 function actualizar(){
     // Datos apiToque local por defecto
     if (!localStorage.getItem('apiToque')){
-        let apiData = {"usd": 165, "date": "2022-12-26"};
+        let apiData = {"usd": 165, "date": "10/1/2023 "};
 
         //Set data a localDB
         localStorage.setItem('apiToque', JSON.stringify(apiData));
@@ -127,7 +119,7 @@ function actualizar(){
     }
     
 
-    // Dats defecto memoria configuracu'on
+    // Dats defecto memoria configuración
     if (!localStorage.getItem('customCup')) {
         localStorage.setItem('customCup', 120);
     }
@@ -160,8 +152,8 @@ function actualizar(){
     statusCheckToque = obj.eltoque
     statusCheckSJ = obj.sanjorge
 
-    document.getElementById('inUsdCup').disabled = obj.eltoque;
-    document.getElementById('inUsdMxn').disabled = obj.sanjorge;
+    document.getElementById('inUsdCup').disabled = statusCheckToque;
+    document.getElementById('inUsdMxn').disabled = statusCheckSJ;
     
 
     MostrarConfig();
@@ -170,8 +162,18 @@ function actualizar(){
     document.getElementById('inUsdMxn').value = obj.dolar;
     document.getElementById('inTasa').value = obj.tasa;
     document.getElementById('inUsdCup').value = obj.usdToCup;
-    toqueChecker.checked = statusCheckToque;
-    sjChecker.checked = statusCheckSJ;
+
+    if (statusCheckSJ) {
+        document.getElementById('btnCheckSJ').className = "button button-round button-fill";
+    } else {
+        document.getElementById('btnCheckSJ').className = "button button-round";
+    }
+
+    if (statusCheckToque) {
+        document.getElementById('btnCheckToque').className = "button button-round button-fill";
+    } else {
+        document.getElementById('btnCheckToque').className = "button button-round";
+    }
 
     actualizar_API_SJ()
 
@@ -179,8 +181,6 @@ function actualizar(){
 
     console.log(obj);
     }
-
-
 }
 
 //Click en el inputMXN de precio
@@ -226,27 +226,22 @@ function calcularDisplay(){
         sumar();
         myApp.closeModal('.picker-info');
     }
-
-
 }
 
 
-
-
 function actualizar_API_Toque(){
-    let hoy = new Date().toLocaleString('en-CA', {
-        timeZone: 'America/Havana',
-      }).slice(0, 10);
+    let hoy = new Date().toLocaleDateString("en-GB");
 
     //get data
     let obj = JSON.parse(localStorage.getItem('apiToque'));
 
-    if (hoy != obj.date && statusCheckToque) {
+    if (hoy.slice(0, 2) != obj.date.slice(0, 2) && statusCheckToque) {
 
-        console.log("Fecha para el toque: " + hoy)
+        console.log("Fecha para el toque: " + hoy.slice(0, 2))
+        console.log("Fecha base de datos: " + obj.date.slice(0, 2))
 
-        const url = 'https://tasas.eltoque.com/v1/trmi?date_from='+hoy+'%2000%3A00%3A01&date_to='+hoy+'%2023%3A59%3A01';
-        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY3MTY0MjcyOCwianRpIjoiNmQxMzhmY2QtMDdlYS00OTI0LTkxNGMtNjIyOGI2ZGY2MGM0IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjYzYTMzZTY4ZTNhYzlkNWM2NGI1OTFmZCIsIm5iZiI6MTY3MTY0MjcyOCwiZXhwIjoxNzAzMTc4NzI4fQ.qMYR74hiBLNkS579r_VeuDrdP9fUKGPDiBxOICPNxso"; // apiToque Token
+        const url = 'https://sj-api.deta.dev/eltoque';
+        const token = "";
         const method = "GET"; // Request method, change for what's needed
 
         fetch(url, {method, 
@@ -256,17 +251,16 @@ function actualizar_API_Toque(){
                    })
         .then(response => response.json())
         .then(data => {
-            apiData = {"usd": data.tasas.USD, "date": data.date};
+            apiData = {"usd": data.cup, "date": data.date};
 
             //Set data a localDB
             localStorage.setItem('apiToque', JSON.stringify(apiData));
-            usdToCup = Number(data.tasas.USD);
+            usdToCup = Number(data.cup);
 
-            document.getElementById('inUsdCup').value = data.tasas.USD;
-
+            document.getElementById('inUsdCup').value = data.cup;
 
             myApp.addNotification({
-                message: 'Actualizada tasa de CUP',
+                message: 'Actualizada tasa de USD/CUP',
                 closeOnClick: true,
                 hold: 2500
             });
@@ -326,10 +320,14 @@ function changeCheckToque() {
     if (document.getElementById('inUsdCup').disabled) {
         document.getElementById('inUsdCup').value = localStorage.getItem('customCup');
         document.getElementById('inUsdCup').disabled = false;
+        document.getElementById('btnCheckToque').className = "button button-round";
+        statusCheckToque = false;
     } else {
         localStorage.setItem('customCup', document.getElementById('inUsdCup').value);
         document.getElementById('inUsdCup').value = obj.usd;
         document.getElementById('inUsdCup').disabled = true;
+        document.getElementById('btnCheckToque').className = "button button-round button-fill";
+        statusCheckToque = true;
     }
 }
 
@@ -337,18 +335,16 @@ function changeCheckToque() {
 function changeCheckSJ() {
     let obj = JSON.parse(localStorage.getItem('apiSJ'));
 
-    myApp.addNotification({
-        message: 'Dio click',
-        closeOnClick: true,
-        hold: 2500
-    });
-
     if (document.getElementById('inUsdMxn').disabled) {
         document.getElementById('inUsdMxn').value = localStorage.getItem('customUsd');
         document.getElementById('inUsdMxn').disabled = false;
+        document.getElementById('btnCheckSJ').className = "button button-round";
+        statusCheckSJ = false;
     } else {
         localStorage.setItem('customUsd', document.getElementById('inUsdMxn').value);
         document.getElementById('inUsdMxn').value = obj.mxn;
         document.getElementById('inUsdMxn').disabled = true;
+        document.getElementById('btnCheckSJ').className = "button button-round button-fill";
+        statusCheckSJ = true;
     }
 }

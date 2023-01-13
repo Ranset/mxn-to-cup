@@ -28,7 +28,7 @@
           </div>
         </div>
         <div class="content-block">
-          RANOLI - v2.0.6
+          RANOLI - v2.1.0
         </div>
     </div>
   </div>
@@ -188,17 +188,6 @@
                               <div class="item-input">
                                 <input id="inUsdMxn" type="number" placeholder="Cambio de USD a MXN en México">
                               </div>
-                              <div class="item-content">
-                                <div class="item-media"><p>Actualizar desde <a href="https://www.sanjorgecc.com.mx/">San Jorge</a></p></div>
-                                  <div class="item-inner">
-                                    <div class="item-input">
-                                      <label class="label-switch">
-                                        <input type="checkbox" id="checkSJ" onclick="changeCheckSJ()">
-                                        <div class="checkbox"></div>
-                                      </label>
-                                    </div>
-                                  </div>
-                              </div>
                             </div>
                           </div>
                         </li>
@@ -208,22 +197,6 @@
                               <div class="item-title label">USD a CUP</div>
                               <div class="item-input">
                                 <input id="inUsdCup" type="number" placeholder="Cambio de USD a CUP en Cuba">
-                              </div>
-                              <div class="item-content" onclick="changeCheckToque()">
-                                <div class="item-media"><p>Actualizar desde <a href="https://eltoque.com/">elToque</a></p></div>
-                                  <div class="item-inner">
-                                    <div class="item-input" >
-                                      <label class="label-checkbox item-content" >
-                                        <input type="checkbox" id="checkToque">
-                                        <div class="item-media">
-                                          <i class="icon icon-form-checkbox"></i>
-                                        </div>
-                                        <div class="item-inner">
-                                          <div class="item-title">Books</div>
-                                        </div>
-                                      </label>
-                                    </div>
-                                  </div>
                               </div>
                             </div>
                           </div>
@@ -240,10 +213,16 @@
                           </div>
                         </li>
                       </ul>
+                          <div id="title_inset" class="content-block-title">Obtener tasa de forma automática</div>
+                          <div class="content-block inset">
+                            <div class="buttons-row">
+                                <a id="btnCheckSJ" href="#" class="button button-round" onclick="changeCheckSJ()">MXN</a>
+                                <a id="btnCheckToque" href="#" class="button button-round" onclick="changeCheckToque()">CUP</a>
+                            </div>
+                          </div>
 
                       <div class="content-block">
-                        <a id="Check" href="#" class="button button-fill" onclick="changeCheckSJ()">SJ </a>
-                        <a id="btnGuardar" href="#home" class="button button-fill">Guardar</a>
+                                                <a id="btnGuardar" href="#home" class="button button-fill">Guardar</a>
                       </div>
 
                     </div>

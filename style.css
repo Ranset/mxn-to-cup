@@ -38,6 +38,10 @@
 	margin-top: -35px;
 }
 
+#title_inset  {
+	margin-bottom: 15px;
+}
+
 .content-block-title {
 	margin-bottom: 48px;
 }
@@ -54,6 +58,10 @@
 
 .calc-nro{
 	color: black !important;
+}
+
+.buttons-row>.button{
+	border: 1px solid #ddd;
 }
 
 .picker-modal {
