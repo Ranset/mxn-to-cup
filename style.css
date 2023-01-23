@@ -60,7 +60,7 @@
 	color: black !important;
 }
 
-.buttons-row>.button{
+.col-25>.button{
 	border: 1px solid #ddd;
 }
 
