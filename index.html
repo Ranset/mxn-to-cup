@@ -24,20 +24,20 @@
   <!-- Contenido Menu izquierda -->
   <div class="panel-overlay">
     <div class="panel panel-left panel-cover">
-      <div id="appTitle" class="content-block-title">Generador de <br> precios en CUP</div>
+      <div id="appTitle" class="content-block-title">Mexicano a CUP</div>
         <div id="menuIzq" class="content-block">
               <div class="content-block-inner">
                 <a href="#home" class="link"><div class ="button ripple-blue">Inicio</div></a>
                 <!--
-                <a href="#page1" class="link"><div class ="button ripple-blue">Page 1</div></a>
                 <a href="#page2" class="link"><div class ="button ripple-blue">Page 2</div></a>
                 <a href="#" class="link open-login-screen"><div class ="button ripple-blue">Login</div></a>
               -->
                 <a href="#Config" class="link"><div class ="button ripple-blue">Configuración</div></a>
+                <a href="#page1" class="link"><div class ="button ripple-blue">Acerca de...</div></a>
           </div>
         </div>
-        <div class="content-block">
-          RANOLI - v2.2.0
+        <div id="ver" class="content-block">
+          
         </div>
     </div>
   </div>
@@ -97,7 +97,7 @@
                   <div class="navbar">
                     <div class="navbar-inner">
                       <div class="left"><a href="#" class="link icon-only open-panel"> <i class="icon icon-bars"></i></a></div>
-                      <div >Generador de precios en CUP</div>
+                      <div >Generador de precios</div>
                     </div>
                   </div>
                   <div class="toolbar">
@@ -141,20 +141,22 @@
                   </div>
               </div>
 
-              <!-- Page 1 -->
+              <!-- Acerca de... -->
               <div class="page cached no-toolbar navbar-fixed" data-page="page1">
                   <div class="navbar">
                       <div class="navbar-inner">
                           <div class="left"><a href="#" class="link icon-only open-panel"> <i class="icon icon-bars"></i></a></div>
-                          <div>Page 1</div>
+                          <div>Acerca de...</div>
                       </div>
                   </div>
                   <div class="page-content">
-                      <div class="content-block-title">Page 1 subtitle</div>
                       <div class="content-block">
-                          <div class="content-block-inner">
-                              <p>Page 1 content</p>
-                          </div>
+                        <h1>Mexicano a CUP</h1>
+                        <img src="Logo mxn-cup 192.png">
+                        <p class="dataInfo">Programación y Diseño:</p>
+                        <p class="dataInfo">Ranset Fleites</p>
+                        <br>
+                        <p id="version"></p>
                       </div>
                   </div>
               </div>
@@ -314,8 +316,18 @@
     </div>
   </div>
 
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener("load", ()=>{
+          navigator.serviceWorker.register("service-worker.js").then((reg)=>{
+            console.log("Service Worker registrado", reg);
+          })
+        })
+      }
+    </script>
+
     <script src='./framework7.min.js'></script>
-    <script src="./script.js"></script>
+    <script type="text/javascript" src="./script.js"></script>
     <script type="text/javascript" src="./calculo.js"></script>
 
   </body>

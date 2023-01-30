@@ -10,3 +10,7 @@ var myApp = new Framework7({
 var mainView = myApp.addView('.view-main', {
     domCache: true
 });
+
+let version = "RANOLI - v2.3.0";
+document.getElementById("version").innerHTML = version;
+document.getElementById("ver").innerHTML = version;
