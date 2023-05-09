@@ -240,7 +240,7 @@ function actualizar_API_Toque(){
         console.log("Fecha para el toque: " + hoy.slice(0, 2))
         console.log("Fecha base de datos: " + obj.date.slice(0, 2))
 
-        const url = 'https://sj-api.deta.dev/eltoque';
+        const url = 'https://sanjorgeapi-1-d3915849.deta.app/eltoque';
         const token = "";
         const method = "GET"; // Request method, change for what's needed
 
@@ -280,7 +280,7 @@ function actualizar_API_SJ(){
 
         console.log("Fecha para SJ: " + hoy)
 
-        const url = 'https://sj-api.deta.dev/';
+        const url = 'https://sanjorgeapi-1-d3915849.deta.app/';
         const token = "";
         const method = "GET"; // Request method, change for what's needed
 
